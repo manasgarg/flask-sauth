@@ -78,7 +78,7 @@ class BaseUser(Document, UserMixin):
         return self.password_reset_token
 
     @classmethod
-    def create_user(cls, name, password, email, email_verified=True):
+    def create_user(cls, name, email, password, email_verified=True):
         """Create (and save) a new user with the given password and
         email address.
         """
