@@ -1,5 +1,6 @@
 import hashlib
 import random
+from functools import wraps
 
 def get_hexdigest(algorithm, salt, raw_password):
     if algorithm == 'md5':
@@ -19,18 +20,19 @@ def generate_random_password(length=8):
     return ''.join( chars)
 
 
-def user_has_role( func, role):
+def user_has_role( fn, role):
     """ decorator: Ensures the user is an administrator, usually required to allow to view admin pages """
-    def method_to_check_admin ( *args, **kw ):
+    @wraps( fn)
+    def decorated_view ( *args, **kw ):
         from flask_login import current_user, logout_user
         from flask import flash, redirect
         if current_user.is_authenticated() and current_user.has_role( role):
-            return func (*args, **kw)
+            return fn (*args, **kw)
         else:
             flash( "You do not have necessary permissions.", "error")
             return redirect ( "/")
 
-    return method_to_check_admin
+    return decorated_view
 
-def user_is_staff( func):
-    return user_has_role( func, "staff")
+def user_is_staff( fn):
+    return user_has_role( fn, "staff")
