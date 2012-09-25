@@ -17,3 +17,20 @@ def generate_random_password(length=8):
         chars.append( random.choice(allchars))
 
     return ''.join( chars)
+
+
+def user_has_roles( func, role):
+    """ decorator: Ensures the user is an administrator, usually required to allow to view admin pages """
+    def method_to_check_admin ( *args, **kw ):
+        from flask_login import current_user, logout_user
+        from flask import flash
+        if current_user.is_authenticated() and current_user.has_role( role):
+            return func (*args, **kw)
+        else:
+            flash( "You do not have necessary permissions.", "error")
+            return HttpResponseRedirect ( "/")
+
+    return method_to_check_admin
+
+def user_is_staff( func):
+    return user_has_role( func, "staff")

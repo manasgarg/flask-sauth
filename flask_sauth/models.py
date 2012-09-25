@@ -19,6 +19,8 @@ class BaseUser(Document, UserMixin):
     is_email_activated = BooleanField( default=True)
     password_reset_token = StringField()
 
+    roles = ListField( StringField(), default=[])
+
     meta = {"abstract": True}
 
     @property
@@ -46,6 +48,20 @@ class BaseUser(Document, UserMixin):
         s += " " + arr[-1]
 
         return s.strip()
+
+    def has_role( self, role):
+        if( not self.roles or role not in self.roles):
+            return False
+
+        return True
+
+    def add_role( self, role):
+        if( role not in self.roles):
+            self.roles.append( role)
+
+    def remove_role( self, role):
+        if( role in self.roles):
+            self.roles.remove( role)
 
     def mark_email_for_activation( self):
         self.is_email_activated = False

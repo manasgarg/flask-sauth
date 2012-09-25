@@ -28,5 +28,13 @@ point to the class path for your User class.
 app.config["USER_MODEL_CLASS"] = "auth.models.User"
 ```
 
-Step 3: Take a look at the template files in the source (for reference) and add
+Step 3: During application initialization, reguster the flask_sauth blueprint.
+
+```
+from flask_sauth.views import auth_views
+
+app.register_blueprint( auth_views)
+```
+
+Step 4: Take a look at the template files in the source (for reference) and add
 similar files to your templates/auth folder.
