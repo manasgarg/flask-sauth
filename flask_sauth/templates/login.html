@@ -1,0 +1,11 @@
+{% extends "master.html" %}
+
+{% import "macros/wtf_bootstrap.html" as forms %}
+
+{% block title %}Login or Register{% endblock %}
+
+{% block maincontents %}
+    <div class="row"> <div class="span4 offset4">
+        {% include "login_frag.html" %}
+    </div> </div>
+{% endblock %}

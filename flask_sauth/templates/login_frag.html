@@ -1,0 +1,34 @@
+{% import "macros/wtf_bootstrap.html" as form %}
+
+<div class="signin-frag">
+    <div class="login {% if not is_login %}hide{% endif %}">
+        <h2>Login</h2>
+        <br/>
+
+        {{ form.vertical_form(login_form, submit_title="Login", cancel_markup="<a href='/accounts/password/reset'>Reset Password</a> / <a href='javascript:;' class='register-prompt'>Register Now</a>", action="/accounts/login") }}
+    </div>
+
+    <div class="register {% if is_login %}hide{% endif %}">
+        <h2>Sign Up</h2>
+        <br/>
+        {{ form.vertical_form(register_form, submit_title="Register", cancel_markup="<br/><br/>Already Registered? <a href='javascript:;' class='login-prompt'>Login now &raquo;</a>", action="/accounts/login") }}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready( function() {
+        $("a.register-prompt").unbind("click.register-prompt").bind("click.register-prompt", function() {
+            $login_frag = $(this).closest("div.signin-frag");
+            $login_frag.find("div.login").hide();
+            $login_frag.find("div.register").show();
+            $login_frag.find("div.register input:first").focus();
+        });
+
+        $("a.login-prompt").unbind("click.login-prompt").bind("click.login-prompt", function() {
+            $login_frag = $(this).closest("div.signin-frag");
+            $login_frag.find("div.login").show();
+            $login_frag.find("div.register").hide();
+            $login_frag.find("div.login input:first").focus();
+        });
+    });
+</script>
