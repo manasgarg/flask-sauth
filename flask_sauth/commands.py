@@ -85,8 +85,8 @@ class ShowUsers( Command):
             print "%s, %s" % (u.email, u.name)
 
 def add_commands( manager):
-    manager.add_command( 'add_user', AddUser())
-    manager.add_command( 'add_role', AddRole())
-    manager.add_command( 'remove_role', RemoveRole())
-    manager.add_command( 'show_roles', ShowRoles())
-    manager.add_command( 'show_users', ShowUsers())
+    manager.add_command( 'user_add', AddUser())
+    manager.add_command( 'user_add_role', AddRole())
+    manager.add_command( 'user_remove_role', RemoveRole())
+    manager.add_command( 'user_show_roles', ShowRoles())
+    manager.add_command( 'user_showall', ShowUsers())
