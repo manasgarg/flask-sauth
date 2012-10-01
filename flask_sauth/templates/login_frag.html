@@ -3,16 +3,14 @@
 <div class="signin-frag">
     <div class="login {% if not is_login %}hide{% endif %}">
         <h2>Login</h2>
-        <br/>
-        <p>Please enter your email &amp; password and we'll get you going right away.</p>
+        <p class="alert alert-info">Please enter your email &amp; password and we'll get you going right away.</p>
 
         {{ form.vertical_form(login_form, submit_title="Login", cancel_markup="<a href='/accounts/password/reset'>Reset Password</a> / <a href='javascript:;' class='register-prompt'>Register Now</a>", action="/accounts/login") }}
     </div>
 
     <div class="register {% if is_login %}hide{% endif %}">
         <h2>Sign Up</h2>
-        <br/>
-        <p>Signing up is easy and takes only a few seconds of your time.</p>
+        <p class="alert alert-info">Signing up is easy and takes only a few seconds of your time.</p>
 
         {{ form.vertical_form(register_form, submit_title="Register", cancel_markup="<br/><br/>Already Registered? <a href='javascript:;' class='login-prompt'>Login now &raquo;</a>", action="/accounts/login") }}
     </div>

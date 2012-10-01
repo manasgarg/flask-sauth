@@ -8,6 +8,7 @@ from models import User
 from djmail import send_mail
 import urlparse, hashlib
 
+
 auth_views = Blueprint('auth_views', __name__,
                         template_folder='templates')
 
