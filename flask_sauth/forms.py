@@ -66,12 +66,13 @@ class ChangePasswordForm( Form):
     password1 = PasswordField( "New Password", validators=[v.DataRequired()])
     password2 = PasswordField( "Re-enter New Password", validators=[v.DataRequired()])
 
-    def __init__( self, user, *args, **kwargs):
-        self.user = user
+    def __init__( self, *args, **kwargs):
         super( ChangePasswordForm, self).__init__( *args, **kwargs)
 
     def validate_password( self, field):
-        user_cache = authenticate(email=self.user.email, password=field.data)
+        from flask_login import current_user
+
+        user_cache = authenticate(email=current_user.email, password=field.data)
         if( not user_cache):
             raise ValidationError( "The current password that you entered is wrong.")
 

@@ -9,8 +9,8 @@
     </div>
 
     <div class="register {% if is_login %}hide{% endif %}">
-        <h2>Sign Up</h2>
-        <p class="alert alert-info">Signing up is easy and takes only a few seconds of your time.</p>
+        <h2>Register</h2>
+        <p class="alert alert-info">Registering is easy and takes only a few seconds of your time.</p>
 
         {{ form.vertical_form(register_form, submit_title="Register", cancel_markup="<br/><br/>Already Registered? <a href='javascript:;' class='login-prompt'>Login now &raquo;</a>", action="/accounts/login") }}
     </div>

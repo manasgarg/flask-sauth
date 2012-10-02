@@ -113,11 +113,11 @@ def do_reset_password( user_id, password_reset_token):
 @login_required
 def change_password():
     if( request.method == "POST"):
-        form = ChangePasswordForm( current_user, request.form)
+        form = ChangePasswordForm( request.form)
         if( form.validate()):
             current_user.set_password( form.password1.data)
             flash( "Your password was changed successfully.", "success")
             return redirect( "/")
     else:
-        form = ChangePasswordForm( current_user)
+        form = ChangePasswordForm()
     return render_template( "auth/change_password.html", **locals())
