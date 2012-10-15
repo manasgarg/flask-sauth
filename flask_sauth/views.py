@@ -8,6 +8,9 @@ from models import User
 from djmail import send_mail
 import urlparse, hashlib
 
+from blinker import signal
+
+signal_user_registered = signal( 'user-registered')
 
 auth_views = Blueprint('auth_views', __name__,
                         template_folder='templates')
@@ -49,6 +52,8 @@ def login():
         if( form.validate()):
             if( not is_login):
                 user = form.save()
+                signal_user_registered.send("flask-satuh", user=user)
+
                 login_user( user)
                 return do_redirect()
             else:

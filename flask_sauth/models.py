@@ -10,7 +10,7 @@ import time, hashlib, datetime
 from utils import get_hexdigest
 
 class BaseUser(Document, UserMixin):
-    email = StringField()
+    email = StringField( unique=True)
     name = StringField()
     password = StringField(max_length=128)
 
