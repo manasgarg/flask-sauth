@@ -8,7 +8,7 @@ from models import User, authenticate
 
 class RegistrationForm( Form):
     name = TextField( validators=[v.DataRequired(), v.Length(max=256)])
-    email = TextField( validators=[v.DataRequired(), v.Length(max=256), v.Email()])
+    email = TextField( validators=[v.DataRequired(), v.Email(), v.Length(max=256), v.Email()])
     password = PasswordField( validators=[v.DataRequired(), v.Length(max=256)])
     next = HiddenField()
 
@@ -24,7 +24,7 @@ class RegistrationForm( Form):
         return user
 
 class LoginForm( Form):
-    email = TextField(u"Email Address", validators=[v.DataRequired()])
+    email = TextField(u"Email Address", validators=[v.DataRequired(), v.Email()])
     password = PasswordField( validators=[v.DataRequired()])
     next = HiddenField()
 
@@ -41,13 +41,15 @@ class LoginForm( Form):
 
 
 class ResetPasswordForm(Form):
-    email = TextField(u"Email Address", validators=[v.DataRequired()])
+    email = TextField(u"Email Address", validators=[v.DataRequired(), v.Email()])
 
     def validate_email( self, field):
         email = field.data.lower().strip()
 
         if( User.objects.filter( email=email).count() == 0):
             raise ValidationError( "This email address is not registered with us.")
+
+        field.data = email
 
         return True
 

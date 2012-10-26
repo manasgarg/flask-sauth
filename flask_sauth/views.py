@@ -97,7 +97,7 @@ def reset_password():
     return render_template( "auth/reset_password.html", **locals())
 
 @auth_views.route("/accounts/password/reset/<password_reset_token>", methods=["GET", "POST"])
-def do_reset_password( user_id, password_reset_token):
+def do_reset_password( password_reset_token):
     user = User.objects( password_reset_token=password_reset_token).first()
     if( not user):
         flash( "Invalid request parameters. Please try resetting again.", "error")
