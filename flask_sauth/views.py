@@ -92,8 +92,8 @@ def reset_password():
             send_mail( "[%s] Reset Password" % host, mesg, current_app.config["SERVER_EMAIL"], [user.email], fail_silently=False)
 
             flash( "Sent you a mail to reset the password. Do remember to check your spam folder as well.", "success")
-
-    form = ResetPasswordForm()
+    else:
+        form = ResetPasswordForm()
     return render_template( "auth/reset_password.html", **locals())
 
 @auth_views.route("/accounts/password/reset/<password_reset_token>", methods=["GET", "POST"])
