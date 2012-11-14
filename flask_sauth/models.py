@@ -4,10 +4,21 @@ from mongoengine import *
 
 from flask_login import UserMixin
 
-from random import randint, random
+from random import randint, random, Random
 import time, hashlib, datetime
 
 from utils import get_hexdigest
+
+righthand = '23456qwertasdfgzxcvbQWERTASDFGZXCVB'
+lefthand = '789yuiophjknmYUIPHJKLNM'
+allchars = righthand + lefthand
+def generate_password(length=8):
+    rng = Random()
+    chars = []
+    for i in range(0,length):
+        chars.append( rng.choice(allchars))
+
+    return ''.join( chars)
 
 class BaseUser(Document, UserMixin):
     email = StringField( unique=True)
