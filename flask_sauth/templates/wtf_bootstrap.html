@@ -1,0 +1,87 @@
+{%- macro form_field_label(field) -%}
+    <label for="{{ field.id }}">{{ field.label.text }}
+    {%- if field.flags.required -%}
+        <abbr title="Required Field"> *</abbr>
+    {%- endif %}</label>
+{% endmacro %}
+
+
+{%- macro form_field_description(field) -%}
+    {% if field.description %}
+        <div class="descr">{{ field.description }}</div>
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro form_field_errors(field) -%}
+    {% if field.errors %}
+    <div>
+        {%- for error in field.errors -%}
+        <span class="label important">{{ error }}</span>
+        {%- endfor -%}
+    </div>
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro form_field_boolean(field) -%}
+    <div class="input">
+        <label>
+            {{ field(**kwargs) }}
+            <span>{{ field.label.text }}</span>
+            {{ form_field_description(field) }}
+            {{ form_field_errors(field) }}
+        </label>
+    </div>
+{%- endmacro -%}
+
+{%- macro action_buttons(submit_title, cancel_markup=None, submit_class="btn-primary") -%}
+<div class="actions">
+    <input type="submit" class="btn {{submit_class}}" value="{{submit_title|safe}}">
+    {% if cancel_markup %} &nbsp; {{cancel_markup|safe}} {% endif %}
+</div>
+{%- endmacro -%}
+
+{%- macro form_field(field) -%}
+    <div class="control-group">
+    {% if field.type == 'HiddenField' %}
+        {{ field() }}
+    {% else %}
+        {% if field.type == 'BooleanField' %}
+            {{ form_field_boolean(field, **kwargs) }}
+        {% else%}
+            {{ form_field_label(field) }}
+            <div class="controls" id="{{field.id}}-div">
+                {% if field.type == 'RadioField' %}
+                    {{ field(class='radio-group', **kwargs) }}
+                {% else %}
+                    {{ field(**kwargs) }}
+                {% endif %}
+                {{ form_field_description(field) }}
+                {{ form_field_errors(field) }}
+            </div>
+        {% endif %}
+    {% endif %}
+    </div>
+{%- endmacro -%}
+
+{%- macro form_fields(fields, class=None, legend=None) -%}
+    <fieldset {% if class %}class="{{class}}"{% endif %}>
+        {% if legend %}
+            <legend>{{legend}}</legend>
+        {% endif %}
+    {% for field in fields %}
+        {% if field.type == 'HiddenField' %}
+            {{ field() }}
+                {% else %}
+            {{ form_field(field) }}
+        {% endif %}
+    {% endfor %}
+  </fieldset>
+{%- endmacro -%}
+
+{%- macro vertical_form( form, class=None, legend=None, method="POST", action=None, submit_title="Submit", submit_class="btn-primary", cancel_markup=None) -%}
+    <form method={{method}} {% if action %}action="{{action}}"{% endif %} {% if class %}class="{{class}}"{% endif %} enctype="multipart/form-data">
+        {{ form_fields( form) }}
+
+        {{ action_buttons( submit_title, cancel_markup, submit_class) }}
+    </form>
+{%- endmacro -%}
